@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PixelBoost — Free AI Image Enhancer</title>
+  <meta name="description" content="Enhance and upscale your images for free with AI. Fast, no signup, professional quality." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ===== TOP AD SLOT (728x90 / 320x50) ===== -->
+  <div class="ad-slot ad-top">
+    <!-- PASTE YOUR ADSTERRA BANNER SCRIPT HERE -->
+    <span class="ad-placeholder">Advertisement</span>
+  </div>
+
+  <header class="site-header">
+    <div class="logo">⚡ PixelBoost</div>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Enhance Your Images with AI — <span>Free</span></h1>
+      <p>Upscale, sharpen, and restore photos in seconds. No signup. No watermark.</p>
+
+      <!-- UPLOAD CARD -->
+      <div class="upload-card">
+        <div id="dropzone" class="dropzone">
+          <input type="file" id="fileInput" accept="image/*" hidden />
+          <div class="dz-content">
+            <div class="dz-icon">🖼️</div>
+            <p><strong>Click to upload</strong> or drag & drop</p>
+            <p class="dz-sub">PNG, JPG, WEBP — max 10 MB</p>
+          </div>
+        </div>
+
+        <div id="previewArea" class="preview-area hidden">
+          <div class="preview-grid">
+            <figure>
+              <img id="beforeImg" alt="Before" />
+              <figcaption>Before</figcaption>
+            </figure>
+            <figure>
+              <img id="afterImg" alt="After" />
+              <figcaption>After</figcaption>
+            </figure>
+          </div>
+          <div class="actions">
+            <button id="enhanceBtn" class="btn primary">✨ Enhance Now</button>
+            <a id="downloadBtn" class="btn ghost hidden" download="enhanced.png">⬇ Download</a>
+            <button id="resetBtn" class="btn ghost">↺ New Image</button>
+          </div>
+          <p id="status" class="status"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== IN-CONTENT AD SLOT (300x250) ===== -->
+    <div class="ad-slot ad-content">
+      <!-- PASTE YOUR ADSTERRA 300x250 SCRIPT HERE -->
+      <span class="ad-placeholder">Advertisement</span>
+    </div>
+
+    <section id="how" class="info">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step"><span>1</span><h3>Upload</h3><p>Drop your photo into the box.</p></div>
+        <div class="step"><span>2</span><h3>Enhance</h3><p>Our AI upscales and sharpens it.</p></div>
+        <div class="step"><span>3</span><h3>Download</h3><p>Save the high-quality result instantly.</p></div>
+      </div>
+    </section>
+
+    <section id="faq" class="info">
+      <h2>FAQ</h2>
+      <details><summary>Is it really free?</summary><p>Yes — no signup, no watermark, no hidden charge.</p></details>
+      <details><summary>What formats are supported?</summary><p>PNG, JPG, and WEBP up to 10 MB.</p></details>
+      <details><summary>Do you store my images?</summary><p>No. Images are processed in memory and never saved.</p></details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> PixelBoost — Made with ❤️</p>
+  </footer>
+
+  <script src="script.js"></script>
+
+  <!-- ===== POPUNDER / SOCIAL BAR (Adsterra) ===== -->
+  <!-- PASTE YOUR ADSTERRA POPUNDER / SOCIAL BAR SCRIPT HERE -->
+</body>
+</html>
