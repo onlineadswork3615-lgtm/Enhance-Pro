@@ -1,4 +1,6 @@
-// কোনো API লিংকের দরকার নেই, সব ব্রাউজারেই কাজ করবে
+// ⚠️ এখানে আপনার Cloudflare Worker URL বসাবেন
+const ENHANCE_API = "https://broken-voice-f59denhance-api.onlineadswork3615.workers.dev/";
+
 const dropzone   = document.getElementById("dropzone");
 const fileInput  = document.getElementById("fileInput");
 const previewArea= document.getElementById("previewArea");
@@ -38,48 +40,35 @@ function handleFile(file) {
   setStatus("");
 }
 
-// --- Enhance (Browser-based High-Quality Upscaler) ---
+// --- Enhance (Cloud AI) ---
 enhanceBtn.addEventListener("click", async () => {
   if (!currentFile) return;
   enhanceBtn.disabled = true;
-  setStatus("Enhancing image locally… this may take a few seconds ⏳");
+  setStatus("Enhancing with AI… This may take up to 30 seconds ⏳");
 
-  // Give a small delay so UI doesn't freeze instantly
-  setTimeout(() => {
-    const img = new Image();
-    img.src = beforeImg.src;
+  try {
+    const form = new FormData();
+    form.append("image", currentFile);
+
+    const res = await fetch(ENHANCE_API, { method: "POST", body: form });
     
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      
-      // 2x Resolution Increase
-      canvas.width = img.width * 2;
-      canvas.height = img.height * 2;
-      
-      // Apply High-Quality Smoothing/Sharpening
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = "high";
-      
-      // Draw the image
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      
-      // Optional: Add a slight sharpness filter using Canvas
-      ctx.filter = 'contrast(1.1) saturate(1.1)';
-      ctx.drawImage(canvas, 0, 0); 
-      ctx.filter = 'none';
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Server error: " + res.status);
+    }
 
-      // Convert to Blob and show result
-      canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob);
-        afterImg.src = url;
-        downloadBtn.href = url;
-        downloadBtn.classList.remove("hidden");
-        setStatus("Done! ✅ (High-Quality Upscale)", "ok");
-        enhanceBtn.disabled = false;
-      }, "image/jpeg", 0.95); // High quality JPEG
-    };
-  }, 800); // 0.8 sec processing time simulation
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    afterImg.src = url;
+    downloadBtn.href = url;
+    downloadBtn.classList.remove("hidden");
+    setStatus("Done! ✅ High-Quality AI Enhance", "ok");
+  } catch (err) {
+    console.error(err);
+    setStatus("Failed: " + err.message, "error");
+  } finally {
+    enhanceBtn.disabled = false;
+  }
 });
 
 // --- Reset ---
