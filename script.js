@@ -1,5 +1,5 @@
 // ⚠️ এখানে আপনার Cloudflare Worker URL বসাবেন
-const ENHANCE_API = "https://YOUR-WORKER.workers.dev/enhance";
+const ENHANCE_API = "https://broken-voice-f59denhance-api.onlineadswork3615.workers.dev/";
 
 const dropzone   = document.getElementById("dropzone");
 const fileInput  = document.getElementById("fileInput");
