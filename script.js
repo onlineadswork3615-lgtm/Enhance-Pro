@@ -1,6 +1,3 @@
-// ⚠️ এখানে আপনার Cloudflare Worker URL বসাবেন
-const ENHANCE_API = "https://broken-voice-f59denhance-api.onlineadswork3615.workers.dev/";
-
 const dropzone   = document.getElementById("dropzone");
 const fileInput  = document.getElementById("fileInput");
 const previewArea= document.getElementById("previewArea");
@@ -12,7 +9,6 @@ const resetBtn   = document.getElementById("resetBtn");
 const statusEl   = document.getElementById("status");
 
 let currentFile = null;
-
 document.getElementById("year").textContent = new Date().getFullYear();
 
 // --- Upload interactions ---
@@ -40,29 +36,34 @@ function handleFile(file) {
   setStatus("");
 }
 
-// --- Enhance (Cloud AI) ---
+// --- Enhance using Browser AI (No Server Needed) ---
 enhanceBtn.addEventListener("click", async () => {
   if (!currentFile) return;
   enhanceBtn.disabled = true;
-  setStatus("Enhancing with AI… This may take up to 30 seconds ⏳");
+  setStatus("Loading AI Model... Please wait 10-15 seconds ⏳");
 
   try {
-    const form = new FormData();
-    form.append("image", currentFile);
+    // Create an image element from the uploaded file
+    const img = new Image();
+    img.src = beforeImg.src;
+    await new Promise((resolve) => img.onload = resolve);
 
-    const res = await fetch(ENHANCE_API, { method: "POST", body: form });
+    // Use the UpscalerJS library to enhance the image in the browser
+    const upscaler = new Upscaler();
     
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.error || "Server error: " + res.status);
-    }
+    setStatus("Enhancing in browser… (Don't close this tab) ⏳");
 
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    afterImg.src = url;
-    downloadBtn.href = url;
+    const enhancedSrc = await upscaler.upscale(img.src, {
+      output: 'base64',
+      patchSize: 64,
+      padding: 2,
+    });
+
+    afterImg.src = enhancedSrc;
+    downloadBtn.href = enhancedSrc;
     downloadBtn.classList.remove("hidden");
-    setStatus("Done! ✅ High-Quality AI Enhance", "ok");
+    setStatus("Done! ✅ Browser AI Enhance Complete", "ok");
+
   } catch (err) {
     console.error(err);
     setStatus("Failed: " + err.message, "error");
