@@ -1,97 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PixelBoost — Free AI Image Enhancer</title>
-  <meta name="description" content="Enhance and upscale your images for free with AI. Fast, no signup, professional quality." />
+  <title>PixelBoost — AI Image Enhancer</title>
+  <meta name="description" content="Enhance and upscale your images for free with AI." />
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- ===== TOP AD SLOT (728x90 / 320x50) ===== -->
+  <!-- ===== TOP AD SLOT ===== -->
   <div class="ad-slot ad-top">
     <!-- PASTE YOUR ADSTERRA BANNER SCRIPT HERE -->
     <span class="ad-placeholder">Advertisement</span>
   </div>
 
   <header class="site-header">
-    <div class="logo">⚡ PixelBoost</div>
+    <div class="logo">✨ PixelBoost</div>
     <nav>
-      <a href="#how">How it works</a>
-      <a href="#faq">FAQ</a>
+      <button id="themeToggle" class="theme-btn" aria-label="Toggle theme">🌙</button>
     </nav>
   </header>
 
   <main>
     <section class="hero">
-      <h1>Enhance Your Images with AI — <span>Free</span></h1>
-      <p>Upscale, sharpen, and restore photos in seconds. No signup. No watermark.</p>
+      <h1>Enhance Your Images with <span>AI</span></h1>
+      <p>Upscale, sharpen, and restore photos in seconds. No signup. No watermark. 100% Free.</p>
 
-      <!-- UPLOAD CARD -->
-      <div class="upload-card">
+      <!-- UPLOAD AREA -->
+      <div class="upload-container">
         <div id="dropzone" class="dropzone">
           <input type="file" id="fileInput" accept="image/*" hidden />
           <div class="dz-content">
-            <div class="dz-icon">🖼️</div>
-            <p><strong>Click to upload</strong> or drag & drop</p>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+            <p><strong>Choose an image</strong> or drag & drop</p>
             <p class="dz-sub">PNG, JPG, WEBP — max 10 MB</p>
           </div>
         </div>
 
         <div id="previewArea" class="preview-area hidden">
-          <div class="preview-grid">
-            <figure>
+          <!-- BEFORE AND AFTER SLIDER -->
+          <div class="comparison-container">
+            <div class="img-wrapper">
               <img id="beforeImg" alt="Before" />
-              <figcaption>Before</figcaption>
-            </figure>
-            <figure>
+              <span class="img-label">Original</span>
+            </div>
+            <div class="img-wrapper">
               <img id="afterImg" alt="After" />
-              <figcaption>After</figcaption>
-            </figure>
+              <span class="img-label">Enhanced</span>
+            </div>
           </div>
+          
           <div class="actions">
             <button id="enhanceBtn" class="btn primary">✨ Enhance Now</button>
-            <a id="downloadBtn" class="btn ghost hidden" download="enhanced.png">⬇ Download</a>
-            <button id="resetBtn" class="btn ghost">↺ New Image</button>
+            <a id="downloadBtn" class="btn secondary hidden" download="enhanced.png">⬇ Download</a>
+            <button id="resetBtn" class="btn outline">↺ New Image</button>
           </div>
           <p id="status" class="status"></p>
         </div>
       </div>
     </section>
 
-    <!-- ===== IN-CONTENT AD SLOT (300x250) ===== -->
+    <!-- ===== IN-CONTENT AD SLOT ===== -->
     <div class="ad-slot ad-content">
       <!-- PASTE YOUR ADSTERRA 300x250 SCRIPT HERE -->
       <span class="ad-placeholder">Advertisement</span>
     </div>
-
-    <section id="how" class="info">
-      <h2>How It Works</h2>
-      <div class="steps">
-        <div class="step"><span>1</span><h3>Upload</h3><p>Drop your photo into the box.</p></div>
-        <div class="step"><span>2</span><h3>Enhance</h3><p>Our AI upscales and sharpens it.</p></div>
-        <div class="step"><span>3</span><h3>Download</h3><p>Save the high-quality result instantly.</p></div>
-      </div>
-    </section>
-
-    <section id="faq" class="info">
-      <h2>FAQ</h2>
-      <details><summary>Is it really free?</summary><p>Yes — no signup, no watermark, no hidden charge.</p></details>
-      <details><summary>What formats are supported?</summary><p>PNG, JPG, and WEBP up to 10 MB.</p></details>
-      <details><summary>Do you store my images?</summary><p>No. Images are processed in memory and never saved.</p></details>
-    </section>
   </main>
 
   <footer class="site-footer">
-    <p>© <span id="year"></span> PixelBoost — Made with ❤️</p>
+    <p>© <span id="year"></span> PixelBoost — Made for Creators</p>
   </footer>
 
+  <!-- লাইব্রেরি: ব্রাউজারে AI চালানোর জন্য -->
+  <script src="https://cdn.jsdelivr.net/npm/upscaler@1.0.0/dist/browser/upscaler.min.js"></script>
   <script src="script.js"></script>
 
-  <!-- ===== POPUNDER / SOCIAL BAR (Adsterra) ===== -->
-  <!-- PASTE YOUR ADSTERRA POPUNDER / SOCIAL BAR SCRIPT HERE -->
+  <!-- ===== POPUNDER / SOCIAL BAR ===== -->
+  <!-- PASTE YOUR ADSTERRA POPUNDER SCRIPT HERE -->
 </body>
 </html>
