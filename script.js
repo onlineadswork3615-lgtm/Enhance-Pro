@@ -7,11 +7,26 @@ const enhanceBtn = document.getElementById("enhanceBtn");
 const downloadBtn= document.getElementById("downloadBtn");
 const resetBtn   = document.getElementById("resetBtn");
 const statusEl   = document.getElementById("status");
+const themeToggle= document.getElementById("themeToggle");
 
 let currentFile = null;
+
+// সেটআপ ডার্ক/লাইট থিম
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+themeToggle.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+
+themeToggle.addEventListener('click', () => {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  themeToggle.textContent = newTheme === 'light' ? '🌙' : '☀️';
+});
+
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// --- Upload interactions ---
+// আপলোড ইন্টারঅ্যাকশন
 dropzone.addEventListener("click", () => fileInput.click());
 dropzone.addEventListener("dragover", e => { e.preventDefault(); dropzone.classList.add("drag"); });
 dropzone.addEventListener("dragleave", () => dropzone.classList.remove("drag"));
@@ -36,23 +51,26 @@ function handleFile(file) {
   setStatus("");
 }
 
-// --- Enhance using Browser AI (No Server Needed) ---
+// এনহ্যান্স ফাংশন (UpscalerJS)
 enhanceBtn.addEventListener("click", async () => {
   if (!currentFile) return;
   enhanceBtn.disabled = true;
-  setStatus("Loading AI Model... Please wait 10-15 seconds ⏳");
-
+  
   try {
-    // Create an image element from the uploaded file
+    setStatus("Loading AI Model... Please wait 10-15s ⏳");
+
+    // ইমেজ তৈরি করা
     const img = new Image();
     img.src = beforeImg.src;
-    await new Promise((resolve) => img.onload = resolve);
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+    });
 
-    // Use the UpscalerJS library to enhance the image in the browser
+    setStatus("Enhancing image locally (Don't close this tab)… ⏳");
+
+    // ব্রাউজারে AI রান করা
     const upscaler = new Upscaler();
-    
-    setStatus("Enhancing in browser… (Don't close this tab) ⏳");
-
     const enhancedSrc = await upscaler.upscale(img.src, {
       output: 'base64',
       patchSize: 64,
@@ -62,17 +80,17 @@ enhanceBtn.addEventListener("click", async () => {
     afterImg.src = enhancedSrc;
     downloadBtn.href = enhancedSrc;
     downloadBtn.classList.remove("hidden");
-    setStatus("Done! ✅ Browser AI Enhance Complete", "ok");
+    setStatus("Done! ✅ High-Quality Enhance Complete", "ok");
 
   } catch (err) {
     console.error(err);
-    setStatus("Failed: " + err.message, "error");
+    setStatus("Failed to enhance. Please try a different image.", "error");
   } finally {
     enhanceBtn.disabled = false;
   }
 });
 
-// --- Reset ---
+// রিসেট
 resetBtn.addEventListener("click", () => {
   currentFile = null;
   fileInput.value = "";
